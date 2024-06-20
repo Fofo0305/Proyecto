@@ -4,6 +4,7 @@ class Cliente:
         self.id = id
         self.edad = edad 
         self.tipo_de_entrada = tipo_de_entrada
+        self.entradas = []
 
     def mostrar(self):
         print(f"""
