@@ -5,4 +5,4 @@ class Entrada:
         self.id = random.randint(00000, 99999) 
         self.partido = partido
         self.usuario = usuario
-    
+        self.valida = True

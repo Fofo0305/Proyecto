@@ -1,10 +1,11 @@
 class Producto:
-    def __init__(self, name, quantity, price, stock, adicional):
+    def __init__(self, name, quantity, price, stock, adicional, clasificacion):
         self.name = name 
         self.quantity = quantity
         self.price = price 
         self.stock = stock 
         self.adicional= adicional
+        self.clasificacion = clasificacion
 
     def mostrar(self):
         print(f"""
@@ -13,5 +14,5 @@ class Producto:
         price = {self.price}
         stock = {self.stock}
         adicional = {self.adicional}
-
+        clasificacion = {self.clasificacion}
 """)

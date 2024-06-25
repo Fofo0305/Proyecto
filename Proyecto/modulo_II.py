@@ -30,7 +30,7 @@ def compra_de_Entrada():
 
     if num_vampiro(id):
         descuento = 0.5 * precio
-         
+
     else:
         descuento = 0
     iva = precio * 0.16
@@ -41,7 +41,7 @@ def compra_de_Entrada():
     lista_clientes.append(nuevoCliente)
     
     nuevaentrada = Entrada (part, nuevoCliente)
-    
+    nuevoCliente.entradas.append(nuevaentrada)
 
     print(f"""
     name = {name}

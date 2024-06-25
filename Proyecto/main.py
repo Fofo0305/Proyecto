@@ -59,7 +59,11 @@ def crearObjetos():
                     for i, d in restaurant.items():
                         if i == "products": 
                             for products in d:
-                                nuevoProducto = Producto(products["name"], products["quantity"], products["price"], products["stock"], products["adicional"]) 
+                                if products["adicional"] == "plate" or products["adicional"] == "package":
+                                    clasificacion = "alimento"
+                                else:
+                                    clasificacion = "bebida"
+                                nuevoProducto = Producto(products["name"], products["quantity"], products["price"], products["stock"], products["adicional"], clasificacion ) 
                                 l_productos.append()
                         nuevoRestaurante = Restaurants(restaurant["name"],l_productos)
                         l_rest.append(nuevoRestaurante)
