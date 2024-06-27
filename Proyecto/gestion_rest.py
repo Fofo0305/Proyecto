@@ -22,8 +22,10 @@ def buscar_por_intervalo(estadio):
             if pmi <= producto.price and pma >= producto.price:
                 producto.mostrar()
 
-def comprar(estadio):
-    ci = input("Introduzca su Numero de cedula: ")
+def comprar(cliente, estadio):
+    if cliente == "":
+        print("Debe ingresar a un partido")
+        return
     edad = input ("Introduzca su edad: ")
     compras = []
     for restaurante in estadio:
@@ -50,19 +52,29 @@ def comprar(estadio):
             for product in compras:
                 price += product.price
                 iva += product.price * 0.16 
+    if numero_perfecto(cliente.cedula):
+        descuento = price*0.15
+    else:
+        descuento = 0
     print(f"""
-    ci = {ci}
+    ci = {cliente.cedula}
     edad = {edad}
     productos = {compras} 
     price = {price}
     iva = {iva} 
     descuento = {descuento}
-    total = {total}
-
+    total = {price - descuento + iva }
 """) 
-                
-
-
+    cliente.gastos += price - descuento + iva
+    
+def numero_perfecto(ci):
+    divisores = []
+    for n in range(1,ci):
+        if ci % n == 0:
+            divisores.append(n)
+    if sum(divisores) == ci:
+        return True
+    return False
 
 
 

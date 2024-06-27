@@ -5,7 +5,7 @@ from entrada import *
 lista_clientes = []
 lista_entradas = []
 
-def compra_de_Entrada():
+def compra_de_Entrada(lista_partidos):
     name = input("Ingrese su nombre: ")
     id = input("Ingrese su C.I: ")
     edad = input("Ingrese su edad: ")
@@ -18,7 +18,7 @@ def compra_de_Entrada():
         if partido.number == numero_de_partidos:
             part = partido
             break
-
+    part.venta += 1
     tipo_de_entrada =input("Ingrese g si quiere GENERAL o v si quiere VIP: ")
     if tipo_de_entrada == "g":
         tipo_de_entrada = "GENERAL"
@@ -42,7 +42,7 @@ def compra_de_Entrada():
     
     nuevaentrada = Entrada (part, nuevoCliente)
     nuevoCliente.entradas.append(nuevaentrada)
-
+    nuevoCliente.gastos += total
     print(f"""
     name = {name}
     edad = {edad}
@@ -53,14 +53,6 @@ def compra_de_Entrada():
     total = {total}
 
 """)
-
-
-
-
-
-
-
-
 
 def num_vampiro(cedula):
     if len(str(cedula)) %2 != 0:

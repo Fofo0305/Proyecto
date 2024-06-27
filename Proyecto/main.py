@@ -4,6 +4,12 @@ from producto import *
 from restaurants import *
 from estadio import *
 from partidos import *
+from modulo_II import *
+from moduloIII import *
+from gestion_rest import*
+gastos_vip = 0
+
+
 equipos= requests.get("https://raw.githubusercontent.com/Algoritmos-y-Programacion/api-proyecto/main/teams.json").json()
 estadios = requests.get("https://raw.githubusercontent.com/Algoritmos-y-Programacion/api-proyecto/main/stadiums.json").json()
 partidos = requests.get("https://raw.githubusercontent.com/Algoritmos-y-Programacion/api-proyecto/main/matches.json").json()
@@ -138,3 +144,38 @@ def buscarFecha(lista_partidos):
 
     for partido in lista:
         partido.mostrar()
+def main():
+    while True:
+        entrada = ""
+        cliente = ""
+        print("""
+            Bienvenidos 
+            presione 1 si desea buscar todos los partidos.
+            presione 2 si desea comprar alguna entrada.
+            presione 3 si desea asistir a un partido.
+            presione 4 si desea comprar en el restaurente. 
+            presione 5 si desea ver las estadisticas.
+            presione 6 para salir.  
+""")
+        opcion1 = input ("ingresa una opcion para continuar: ")
+        if opcion1 == 1: 
+            print("""
+                presione 1 si desea buscar por pais.
+                presione 2 si desea buscar por estadio.
+                presione 3 si desea buscar por fecha.                 
+""")
+            opcion2 = input ("ingrese una opcion para continuar: ")
+            if opcion2 == 1:
+                buscarPais(lista_partidos)
+            if opcion2 == 2:
+                BuscarEstadio(lista_partidos)
+            if opcion2 == 3:
+                buscarFecha(lista_partidos)
+        if opcion1 == 2:
+            compra_de_Entrada(lista_partidos)
+        if opcion1 ==3:
+            entrada, cliente = validar_boleto()
+        if opcion1 == 4:
+            comprar(cliente, entrada.estadio)
+        if opcion1 == 5:
+            pass

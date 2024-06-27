@@ -5,6 +5,7 @@ class Cliente:
         self.edad = edad 
         self.tipo_de_entrada = tipo_de_entrada
         self.entradas = []
+        self.gastos = 0
 
     def mostrar(self):
         print(f"""

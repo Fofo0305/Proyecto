@@ -7,6 +7,8 @@ class Partidos:
         self.date = date 
         self.group = group 
         self.stadium = stadium
+        self.venta = 0
+        self.asistencia = 0
     
     def mostrar(self):
         print(f"""
