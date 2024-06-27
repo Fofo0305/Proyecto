@@ -45,6 +45,7 @@ def comprar(cliente, estadio):
         s = input ("Que cantidad de productos desea agregar al carrito: ")
         n = input ("Desea agregar el producto al carrito (s/n): ")
         if n == 's':
+            p.venta += s
             for i in range(s):
                 compras.append(p)
             price = 0

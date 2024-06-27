@@ -38,6 +38,7 @@ def compra_de_Entrada(lista_partidos):
 
     
     nuevoCliente = Cliente (name, id, edad, tipo_de_entrada)
+    nuevoCliente.venta += 1
     lista_clientes.append(nuevoCliente)
     
     nuevaentrada = Entrada (part, nuevoCliente)

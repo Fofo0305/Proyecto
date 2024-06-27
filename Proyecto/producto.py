@@ -6,6 +6,7 @@ class Producto:
         self.stock = stock 
         self.adicional= adicional
         self.clasificacion = clasificacion
+        self.venta = 0
 
     def mostrar(self):
         print(f"""
