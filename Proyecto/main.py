@@ -8,7 +8,8 @@ from modulo_II import *
 from moduloIII import *
 from gestion_rest import*
 gastos_vip = 0
-
+from estadisticas import*
+from validaciones import *
 
 equipos= requests.get("https://raw.githubusercontent.com/Algoritmos-y-Programacion/api-proyecto/main/teams.json").json()
 estadios = requests.get("https://raw.githubusercontent.com/Algoritmos-y-Programacion/api-proyecto/main/stadiums.json").json()
@@ -16,6 +17,7 @@ partidos = requests.get("https://raw.githubusercontent.com/Algoritmos-y-Programa
 lista_equipos = []
 lista_estadios = []
 lista_partidos = []
+
 def crearObjetos():
 
     """equipos = [
@@ -70,10 +72,10 @@ def crearObjetos():
                                 else:
                                     clasificacion = "bebida"
                                 nuevoProducto = Producto(products["name"], products["quantity"], products["price"], products["stock"], products["adicional"], clasificacion ) 
-                                l_productos.append()
+                                l_productos.append(nuevoProducto)
                         nuevoRestaurante = Restaurants(restaurant["name"],l_productos)
                         l_rest.append(nuevoRestaurante)
-        nuevoEstadio = Estadio(estadios[id], estadios["name"], estadios["city"], estadios["capacity"],l_rest)         
+        nuevoEstadio = Estadio(estadios["id"], estadios["name"], estadios["city"], estadios["capacity"],l_rest)         
         """
         partidos = [  {
             "id": "1304daa3-c591-464e-adbc-192538de2e40",
@@ -114,9 +116,15 @@ def crearObjetos():
                     if equipo.id == dato["id"]:
                         estadio = equipo
         nuevoPartidos = Partidos(partidos ["id"], partidos["number"], home, away, partidos["date"], partidos["group"],estadio)
+        lista_partidos.append(nuevoPartidos)
 
 def buscarPais(lista_partidos):
+    print(len(lista_partidos))
+    for partido in lista_partidos:
+        partido.mostrar()
+
     pais = input("Ingrese el codigo del pais: ")
+    pais = validar_string (pais, "Ingrese el codigo del pais: " )
     lista = []
     for partido in lista_partidos:
         if partido.home.code == pais or partido.away.code == pais:
@@ -127,6 +135,7 @@ def buscarPais(lista_partidos):
 
 def BuscarEstadio(lista_partidos):
     estadio = input("ingrese el nombre del estadio: ")
+    estadio = validar_string(estadio, "ingrese el nombre del estadio: " )
     lista = []
     for partido in lista_partidos:
         if partido.estadio.name == estadio: 
@@ -137,6 +146,7 @@ def BuscarEstadio(lista_partidos):
 
 def buscarFecha(lista_partidos):
     date = input("ingrese la fecha del partido: ")
+    date = validar_int (date , "ingrese la fecha del partido: " )
     lista = []
     for partido in lista_partidos:
         if partido.date == date:
@@ -144,7 +154,10 @@ def buscarFecha(lista_partidos):
 
     for partido in lista:
         partido.mostrar()
+
+
 def main():
+    crearObjetos()
     while True:
         entrada = ""
         cliente = ""
@@ -158,24 +171,53 @@ def main():
             presione 6 para salir.  
 """)
         opcion1 = input ("ingresa una opcion para continuar: ")
+        opcion1 = validar_opciones(opcion1, 6, "ingresa una opcion para continuar: ")
         if opcion1 == 1: 
             print("""
                 presione 1 si desea buscar por pais.
                 presione 2 si desea buscar por estadio.
                 presione 3 si desea buscar por fecha.                 
 """)
-            opcion2 = input ("ingrese una opcion para continuar: ")
+            opcion2 = input("ingrese una opcion para continuar: ")
+
+            while not opcion2.isnumeric() or int(opcion2) > 3:
+                opcion2 = input("ingrese una opcion para continuar: ")
+            opcion2 = int(opcion2)
             if opcion2 == 1:
                 buscarPais(lista_partidos)
-            if opcion2 == 2:
+            elif opcion2 == 2:
                 BuscarEstadio(lista_partidos)
-            if opcion2 == 3:
+            elif opcion2 == 3:
                 buscarFecha(lista_partidos)
-        if opcion1 == 2:
+        elif opcion1 == 2:
             compra_de_Entrada(lista_partidos)
-        if opcion1 ==3:
+        elif opcion1 == 3:
             entrada, cliente = validar_boleto()
-        if opcion1 == 4:
+        elif opcion1 == 4:
             comprar(cliente, entrada.estadio)
-        if opcion1 == 5:
-            pass
+        elif opcion1 == 5:
+            print("""
+                presione 1 si desea ver los gatos vip.
+                presione 2 si desea ver la tabla con asistencia de mjeor a peor.
+                presione 3 si desea ver el partido con mayor asistencia.
+                presione 4 si desea ver cual fue el partido con mayor boletos vendidos.
+                presione 5 si desea ver el top 3 productos más vendidos en el restaurante.
+                presione 6 si desea ver el top 3 clientes que más compraron boletos
+""")
+            opcion1 = input ("Ingrese una opcion para continuar: ")
+            opcion1 = validar_boleto (opcion1, 6, "Ingrese una opcion para continuar: ")
+            if opcion1 == 1:
+                gastos_vip(lista_partidos)
+            elif opcion1 == 2:
+                asistencia_partidos(lista_partidos)
+            elif opcion1 == 3:
+                mayor_asistencia(lista_partidos)
+            elif opcion1 == 4:
+                mayor_venta(lista_partidos)
+            elif opcion1 == 5:
+                venta_productos(lista_partidos)
+            elif opcion1 == 6:
+                venta_boletos(lista_partidos)
+        elif opcion1 == 6:
+            break  
+main()

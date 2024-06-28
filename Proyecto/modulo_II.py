@@ -1,25 +1,30 @@
-from main import *
-from Cliente import *
-from entrada import *
-
+from main import*
+from Cliente import*
+from entrada import*
+from validaciones import*
 lista_clientes = []
 lista_entradas = []
 
 def compra_de_Entrada(lista_partidos):
     name = input("Ingrese su nombre: ")
+    name = validar_string (name, "Ingrese su nombre: " )
     id = input("Ingrese su C.I: ")
+    id = validar_int(id, "Ingrese su C.I: " )
     edad = input("Ingrese su edad: ")
+    edad = validar_int(edad, "Ingrese su edad: " )
     
     for partido in lista_partidos:
         partido.mostrar()
     
     numero_de_partidos = input("Ingrese el numero de partido que desea ver: ")
+    numero_de_partidos = validar_int(numero_de_partidos, "Ingrese el numero de partido que desea ver: " )
     for partido in lista_partidos:
         if partido.number == numero_de_partidos:
             part = partido
             break
     part.venta += 1
     tipo_de_entrada =input("Ingrese g si quiere GENERAL o v si quiere VIP: ")
+    tipo_de_entrada = validar_string(tipo_de_entrada,  "Ingrese g si quiere GENERAL o v si quiere VIP: " )
     if tipo_de_entrada == "g":
         tipo_de_entrada = "GENERAL"
         precio = 35
