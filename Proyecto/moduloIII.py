@@ -14,9 +14,10 @@ def validar_boleto (lista_clientes):
 
     if usuario !=0:
         for entrada in usuario.entradas:
-            if id_b == entrada.id and entrada.valida:
+            if int(id_b) == entrada.id and entrada.valida:
                 entrada.valida = False
                 entrada.partido.asistencia +=1
                 print("BIENVENIDO")
                 return entrada, usuario
     print("NO SE ENCONTRO UNA ENTRADA VALIDA")
+    return "",""

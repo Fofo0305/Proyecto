@@ -14,10 +14,10 @@ class Partidos:
         print(f"""
         id = {self.id}
         Number = {self.number}
-        home = {self.home}
-        away = {self.away}
+        home = {self.home.name}
+        away = {self.away.name}
         date = {self.date}
         group = {self.group}
-        stadium = {self.stadium}
+        stadium = {self.stadium.name}
 
 """)

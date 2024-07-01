@@ -7,7 +7,6 @@ from partidos import *
 from modulo_II import *
 from moduloIII import *
 from gestion_rest import*
-gastos_vip = 0
 from estadisticas import*
 from validaciones import *
 
@@ -71,11 +70,12 @@ def crearObjetos():
                                     clasificacion = "alimento"
                                 else:
                                     clasificacion = "bebida"
-                                nuevoProducto = Producto(products["name"], products["quantity"], products["price"], products["stock"], products["adicional"], clasificacion ) 
+                                nuevoProducto = Producto(products["name"], products["quantity"], float(products["price"]), products["stock"], products["adicional"], clasificacion ) 
                                 l_productos.append(nuevoProducto)
                         nuevoRestaurante = Restaurants(restaurant["name"],l_productos)
                         l_rest.append(nuevoRestaurante)
-        nuevoEstadio = Estadio(estadios["id"], estadios["name"], estadios["city"], estadios["capacity"],l_rest)         
+        nuevoEstadio = Estadio(stadium["id"], stadium["name"], stadium["city"], stadium["capacity"],l_rest) 
+        lista_estadios.append(nuevoEstadio)        
         """
         partidos = [  {
             "id": "1304daa3-c591-464e-adbc-192538de2e40",
@@ -97,12 +97,14 @@ def crearObjetos():
             "stadium_id": "3db1375b-a28f-4908-9878-ec0fe5a5587f"
         }
         ]"""
-
-    for partidos in partidos:
-        for tipo, dato in partidos.items(): 
-            home = ""
-            away = ""
-            estadio = ""
+    for p in lista_equipos:
+        p.mostrar()
+    for partido in partidos:
+        home = ""
+        away = ""
+        estadio = ""
+        for tipo, dato in partido.items(): 
+            
             if tipo == "home":
                 for equipo in lista_equipos:
                     if equipo.id == dato["id"]:
@@ -111,18 +113,16 @@ def crearObjetos():
                 for equipo in lista_equipos:
                     if equipo.id == dato["id"]:
                         away = equipo 
-            if tipo == "estadio":
-                for equipo in lista_estadios:
-                    if equipo.id == dato["id"]:
-                        estadio = equipo
-        nuevoPartidos = Partidos(partidos ["id"], partidos["number"], home, away, partidos["date"], partidos["group"],estadio)
+            if tipo == "stadium_id":
+                for est in lista_estadios:
+                    if est.id == dato:
+                        estadio = est
+        nuevoPartidos = Partidos(partido ["id"], partido["number"], home, away, partido["date"], partido["group"],estadio)
         lista_partidos.append(nuevoPartidos)
 
 def buscarPais(lista_partidos):
-    print(len(lista_partidos))
     for partido in lista_partidos:
         partido.mostrar()
-
     pais = input("Ingrese el codigo del pais: ")
     pais = validar_string (pais, "Ingrese el codigo del pais: " )
     lista = []
@@ -132,21 +132,24 @@ def buscarPais(lista_partidos):
     
     for partido in lista:
         partido.mostrar()
+    if len(lista) == 0:
+        print("No hay ningun pais con ese codigo")
 
 def BuscarEstadio(lista_partidos):
     estadio = input("ingrese el nombre del estadio: ")
-    estadio = validar_string(estadio, "ingrese el nombre del estadio: " )
+    #estadio = validar_string(estadio, "ingrese el nombre del estadio: " )
     lista = []
     for partido in lista_partidos:
-        if partido.estadio.name == estadio: 
+        if partido.stadium.name == estadio: 
             lista.append(partido)
 
     for partido in lista:
         partido.mostrar()
-
+    if len(lista) == 0:
+        print("No hay ningun estadio con ese nombre")
 def buscarFecha(lista_partidos):
     date = input("ingrese la fecha del partido: ")
-    date = validar_int (date , "ingrese la fecha del partido: " )
+    #date = validar_int (date , "ingrese la fecha del partido: " )
     lista = []
     for partido in lista_partidos:
         if partido.date == date:
@@ -154,13 +157,15 @@ def buscarFecha(lista_partidos):
 
     for partido in lista:
         partido.mostrar()
-
+    if len(lista) == 0:
+            print("No hay ningun pais con esa fecha")
 
 def main():
     crearObjetos()
+    entrada = ""
+    cliente = ""
     while True:
-        entrada = ""
-        cliente = ""
+        
         print("""
             Bienvenidos 
             presione 1 si desea buscar todos los partidos.
@@ -192,9 +197,12 @@ def main():
         elif opcion1 == 2:
             compra_de_Entrada(lista_partidos)
         elif opcion1 == 3:
-            entrada, cliente = validar_boleto()
+            entrada, cliente = validar_boleto(lista_clientes)
         elif opcion1 == 4:
-            comprar(cliente, entrada.estadio)
+            if entrada !="" and cliente.tipo_de_entrada == "VIP":
+                comprar(cliente, entrada.partido.stadium)
+            else:
+                print("Debe ingresar a un partido con una entrada VIP para acceder al restaurante")
         elif opcion1 == 5:
             print("""
                 presione 1 si desea ver los gatos vip.
@@ -205,7 +213,7 @@ def main():
                 presione 6 si desea ver el top 3 clientes que más compraron boletos
 """)
             opcion1 = input ("Ingrese una opcion para continuar: ")
-            opcion1 = validar_boleto (opcion1, 6, "Ingrese una opcion para continuar: ")
+            opcion1 = validar_opciones (opcion1, 6, "Ingrese una opcion para continuar: ")
             if opcion1 == 1:
                 gastos_vip(lista_partidos)
             elif opcion1 == 2:
@@ -215,9 +223,9 @@ def main():
             elif opcion1 == 4:
                 mayor_venta(lista_partidos)
             elif opcion1 == 5:
-                venta_productos(lista_partidos)
+                venta_productos(lista_estadios)
             elif opcion1 == 6:
-                venta_boletos(lista_partidos)
+                venta_boletos(lista_clientes)
         elif opcion1 == 6:
             break  
 main()

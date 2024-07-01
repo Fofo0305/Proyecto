@@ -2,7 +2,7 @@ from validaciones import*
 
 def buscarNombre(estadio):
     np = input ("Introduzca el nombre del producto: ")
-    np = validar_string (np,"Introduzca el nombre del producto: ")
+    #np = validar_string (np,"Introduzca el nombre del producto: ")
     for restaurante in estadio:
         for producto in restaurante.products:
             if np == producto.nombre:
@@ -23,51 +23,49 @@ def buscar_por_intervalo(estadio):
     pma = validar_int(pma, "Introduzca el precio maximo que quiera obtener: " )
     for restaurante in estadio: 
         for producto in restaurante.products:
-            if pmi <= producto.price and pma >= producto.price:
+            if int(pmi) <= producto.price and int(pma) >= producto.price:
                 producto.mostrar()
 
 def comprar(cliente, estadio):
     if cliente == "":
         print("Debe ingresar a un partido")
         return
-    edad = input ("Introduzca su edad: ")
-    edad = validar_int (edad, "Introduzca su edad: " )
     compras = []
-    for restaurante in estadio:
+    for restaurante in estadio.restaurants:
         for producto in restaurante.products:
-            if producto.adicional =="alcoholic" and edad < 18:
+            if producto.adicional =="alcoholic" and int(cliente.edad) < 18:
                 pass
             else:
                 producto.mostrar()
 
     c = input ("Introduzca la comida que desee comprar: ")
-    c = validar_string (c, "Introduzca la comida que desee comprar: " )
+    #c = validar_string (c, "Introduzca la comida que desee comprar: " )
     p = 0
-    for restaurante in estadio:
+    for restaurante in estadio.restaurants:
         for producto in restaurante.products:
-            if c == producto.nombre:
+            if c == producto.name:
                p = producto
     if p != 0:
         s = input ("Que cantidad de productos desea agregar al carrito: ")
         s = validar_int (s,"Que cantidad de productos desea agregar al carrito: " )
-        n = input ("Desea agregar el producto al carrito (s/n): ")
+        n = input ("Desea agregar el producto al carrito y proceder a pagar?(s/n): ")
         n = validar_string ( n, "Desea agregar el producto al carrito (s/n): " )
         if n == 's':
-            p.venta += s
-            for i in range(s):
+            p.venta += int(s)
+            for i in range(int(s)):
                 compras.append(p)
             price = 0
             iva = 0
             for product in compras:
                 price += product.price
                 iva += product.price * 0.16 
-    if numero_perfecto(cliente.cedula):
+    if numero_perfecto(int(cliente.id)):
         descuento = price*0.15
     else:
         descuento = 0
     print(f"""
-    ci = {cliente.cedula}
-    edad = {edad}
+    ci = {cliente.id}
+    edad = {cliente.edad}
     productos = {compras} 
     price = {price}
     iva = {iva} 

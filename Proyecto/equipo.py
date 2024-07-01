@@ -11,5 +11,4 @@ class Equipo:
         code = {self.code}
         name = {self.name}
         group = {self.group}
-
 """)

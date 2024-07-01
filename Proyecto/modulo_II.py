@@ -1,4 +1,4 @@
-from main import*
+
 from Cliente import*
 from entrada import*
 from validaciones import*
@@ -18,13 +18,15 @@ def compra_de_Entrada(lista_partidos):
     
     numero_de_partidos = input("Ingrese el numero de partido que desea ver: ")
     numero_de_partidos = validar_int(numero_de_partidos, "Ingrese el numero de partido que desea ver: " )
+    numero_de_partidos = validar_opciones(numero_de_partidos, 36, "Ingrese el numero de partido que desea ver: ")
     for partido in lista_partidos:
-        if partido.number == numero_de_partidos:
+        if partido.number == int(numero_de_partidos):
             part = partido
             break
-    part.venta += 1
     tipo_de_entrada =input("Ingrese g si quiere GENERAL o v si quiere VIP: ")
     tipo_de_entrada = validar_string(tipo_de_entrada,  "Ingrese g si quiere GENERAL o v si quiere VIP: " )
+    while tipo_de_entrada.lower() != "g" and tipo_de_entrada.lower() != "v":
+        tipo_de_entrada = validar_string("1",  "Ingrese g si quiere GENERAL o v si quiere VIP: ")
     if tipo_de_entrada == "g":
         tipo_de_entrada = "GENERAL"
         precio = 35
@@ -33,7 +35,7 @@ def compra_de_Entrada(lista_partidos):
         tipo_de_entrada = "VIP"
         precio = 75
 
-    if num_vampiro(id):
+    if num_vampiro(int(id)):
         descuento = 0.5 * precio
 
     else:
@@ -41,11 +43,10 @@ def compra_de_Entrada(lista_partidos):
     iva = precio * 0.16
     total = precio - descuento + iva
 
-    
     nuevoCliente = Cliente (name, id, edad, tipo_de_entrada)
     nuevoCliente.venta += 1
     lista_clientes.append(nuevoCliente)
-    
+    part.venta +=1 
     nuevaentrada = Entrada (part, nuevoCliente)
     nuevoCliente.entradas.append(nuevaentrada)
     nuevoCliente.gastos += total
@@ -57,6 +58,7 @@ def compra_de_Entrada(lista_partidos):
     iva = {iva} 
     descuento = {descuento}
     total = {total}
+    id del boleto= {nuevaentrada.id}
 
 """)
 
